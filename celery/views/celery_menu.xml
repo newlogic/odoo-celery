@@ -1,39 +1,41 @@
-<?xml version="1.0" encoding='UTF-8'?>
+<?xml version="1.0" encoding='UTF-8' ?>
 <!-- Copyright Nova Code (http://www.novacode.nl)
 License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
-
 <odoo>
     <data>
-        <menuitem id="menu_celery_root"
-                  name="Celery"
-                  web_icon="celery,static/description/icon.png"/>
+        <menuitem id="menu_celery_root" name="Celery" web_icon="celery,static/description/icon.png" />
 
         <!-- Tasks -->
-        <menuitem id="menu_celery_task"
-                  name="Tasks"
-                  parent="menu_celery_root"
-                  action="action_celery_task"
-                  sequence="10"/>
-        <menuitem id="menu_celery_stuck_task_report"
-                  name="Stuck Tasks"
-                  parent="celery.menu_celery_root"
-                  action="action_celery_stuck_task_report"
-                  sequence="50"/>
+        <menuitem
+            id="menu_celery_task"
+            name="Tasks"
+            parent="menu_celery_root"
+            action="action_celery_task"
+            sequence="10"
+        />
+        <menuitem
+            id="menu_celery_stuck_task_report"
+            name="Stuck Tasks"
+            parent="celery.menu_celery_root"
+            action="action_celery_stuck_task_report"
+            sequence="50"
+        />
 
         <!-- Settings -->
-        <menuitem id="menu_celery_setting_root"
-                  name="Settings"
-                  parent="menu_celery_root"
-                  sequence="100"/>
-        <menuitem id="menu_celery_task_setting"
-                  name="Tasks"
-                  parent="celery.menu_celery_setting_root"
-                  action="action_celery_task_setting"
-                  sequence="30"/>
-        <menuitem id="menu_celery_queues"
-                  name="Queues"
-                  parent="celery.menu_celery_setting_root"
-                  action="action_celery_queue"
-                  sequence="40"/>
+        <menuitem id="menu_celery_setting_root" name="Settings" parent="menu_celery_root" sequence="100" />
+        <menuitem
+            id="menu_celery_task_setting"
+            name="Tasks"
+            parent="celery.menu_celery_setting_root"
+            action="action_celery_task_setting"
+            sequence="30"
+        />
+        <menuitem
+            id="menu_celery_queues"
+            name="Queues"
+            parent="celery.menu_celery_setting_root"
+            action="action_celery_queue"
+            sequence="40"
+        />
      </data>
 </odoo>

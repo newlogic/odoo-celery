@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding='UTF-8'?>
+<?xml version="1.0" encoding='UTF-8' ?>
 <!-- Copyright Nova Code (http://www.novacode.nl)
 License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
-
 <odoo>
     <data>
         <record id="view_celery_task_setting_tree" model="ir.ui.view">
@@ -10,14 +9,14 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
 	    <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Task Setting" decoration-muted="(not active)">
-                    <field name="model"/>
-                    <field name="method"/>
-                    <field name="handle_stuck"/>
-                    <field name="stuck_after_seconds"/>
-                    <field name="handle_stuck_by_cron"/>
-                    <field name="schedule"/>
-                    <field name="transaction_strategy"/>
-                    <field name="active"/>
+                    <field name="model" />
+                    <field name="method" />
+                    <field name="handle_stuck" />
+                    <field name="stuck_after_seconds" />
+                    <field name="handle_stuck_by_cron" />
+                    <field name="schedule" />
+                    <field name="transaction_strategy" />
+                    <field name="active" />
                 </tree>
             </field>
         </record>
@@ -30,26 +29,38 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
                 <form string="Task Setting">
                     <sheet>
                         <div class="oe_button_box" name="button_box">
-                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
-                                <field name="active" widget="boolean_button" options="{'terminology': 'archive'}"/>
+                            <button
+                                name="toggle_active"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-archive"
+                            >
+                                <field
+                                    name="active"
+                                    widget="boolean_button"
+                                    options="{'terminology': 'archive'}"
+                                />
                             </button>
                         </div>
                         <group name="model_method_main">
                             <group colspan="4">
-                                <field name="model"/>
-                                <field name="method"/>
+                                <field name="model" />
+                                <field name="method" />
                             </group>
                         </group>
                         <notebook name="task_settings_notebook">
                             <page string="Queues" name="tab_queues">
                                 <group name="queues">
                                     <group colspan="4">
-                                        <field name="use_first_empty_queue"/>
+                                        <field name="use_first_empty_queue" />
                                         <field name="task_queue_ids" colspan="4" nolabel="1">
                                             <tree string="Queues" editable="bottom">
-                                                <field name="sequence" widget="handle"/>
-                                                <field name="queue_id" options="{'no_create': True}"/>
-                                                <field name="queue_max_pending_tasks" attrs="{'invisible': [('parent.use_first_empty_queue', '!=', True)]}"/>
+                                                <field name="sequence" widget="handle" />
+                                                <field name="queue_id" options="{'no_create': True}" />
+                                                <field
+                                                    name="queue_max_pending_tasks"
+                                                    attrs="{'invisible': [('parent.use_first_empty_queue', '!=', True)]}"
+                                                />
                                             </tree>
                                         </field>
                                     </group>
@@ -58,37 +69,53 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
                             <page string="Stuck" name="tab_stuck">
                                 <group name="stuck">
                                     <group colspan="2">
-                                        <field name="handle_stuck"/>
+                                        <field name="handle_stuck" />
                                     </group>
                                     <group colspan="2">
-                                        <p>A task seems Stuck when it's still in state <strong>Started</strong> or <strong>Retry</strong>, after certain elapsed seconds.</p>
+                                        <p>A task seems Stuck when it's still in state <strong
+                                            >Started</strong> or <strong
+                                            >Retry</strong>, after certain elapsed seconds.</p>
                                     </group>
                                     <group attrs="{'invisible': [('handle_stuck', '=', False)]}">
-                                        <field name="stuck_after_seconds"/>
+                                        <field name="stuck_after_seconds" />
                                     </group>
                                     <group attrs="{'invisible': [('handle_stuck', '=', False)]}">
-                                        <field name="handle_stuck_by_cron"/>
+                                        <field name="handle_stuck_by_cron" />
                                     </group>
                                 </group>
                             </page>
                             <page string="Scheduling" name="tab_scheduling">
                                 <group name="scheduling">
                                     <group colspan="4">
-                                        <field name="schedule"/>
+                                        <field name="schedule" />
                                     </group>
                                     <group colspan="4" cols="4">
-                                        <group attrs="{'invisible': [('schedule', '=', False)]}" colspan="2" cols="2" string="Days:">
-                                            <field name="schedule_mondays" string="Monday"/>
-                                            <field name="schedule_tuesdays" string="Tuesday"/>
-                                            <field name="schedule_wednesdays" string="Wednesday"/>
-                                            <field name="schedule_thursdays" string="Thursday"/>
-                                            <field name="schedule_fridays" string="Friday"/>
-                                            <field name="schedule_saturdays" string="Saturday"/>
-                                            <field name="schedule_sundays" string="Sunday"/>
+                                        <group
+                                            attrs="{'invisible': [('schedule', '=', False)]}"
+                                            colspan="2"
+                                            cols="2"
+                                            string="Days:"
+                                        >
+                                            <field name="schedule_mondays" string="Monday" />
+                                            <field name="schedule_tuesdays" string="Tuesday" />
+                                            <field name="schedule_wednesdays" string="Wednesday" />
+                                            <field name="schedule_thursdays" string="Thursday" />
+                                            <field name="schedule_fridays" string="Friday" />
+                                            <field name="schedule_saturdays" string="Saturday" />
+                                            <field name="schedule_sundays" string="Sunday" />
                                         </group>
-                                        <group attrs="{'invisible': [('schedule', '=', False)]}" colspan="2" cols="2" string="Hours:">
-                                            <field name="schedule_hours_from" string="From" widget="float_time"/>
-                                            <field name="schedule_hours_to" string="To" widget="float_time"/>
+                                        <group
+                                            attrs="{'invisible': [('schedule', '=', False)]}"
+                                            colspan="2"
+                                            cols="2"
+                                            string="Hours:"
+                                        >
+                                            <field
+                                                name="schedule_hours_from"
+                                                string="From"
+                                                widget="float_time"
+                                            />
+                                            <field name="schedule_hours_to" string="To" widget="float_time" />
                                         </group>
                                     </group>
                                 </group>
@@ -96,15 +123,15 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
                             <page string="Execution" name="tab_execution">
                                 <group name="execution">
                                     <group>
-                                        <field name="transaction_strategy"/>
+                                        <field name="transaction_strategy" />
                                     </group>
                                 </group>
                             </page>
                         </notebook>
                     </sheet>
                     <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="message_ids" widget="mail_thread"/>
+                        <field name="message_follower_ids" widget="mail_followers" />
+                        <field name="message_ids" widget="mail_thread" />
                     </div>
                 </form>
             </field>
@@ -114,13 +141,17 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
             <field name="model">celery.task.setting</field>
             <field name="arch" type="xml">
                 <search string="Celery Task Settings">
-                    <field name="model" string="Model"/>
-                    <field name="method" string="Method"/>
-                    <field name="active"/>
-                    <separator/>
-                    <filter string="All" name="all" domain="['|', ('active', '=', False), ('active', '=', True)]" />
+                    <field name="model" string="Model" />
+                    <field name="method" string="Method" />
+                    <field name="active" />
+                    <separator />
+                    <filter
+                        string="All"
+                        name="all"
+                        domain="['|', ('active', '=', False), ('active', '=', True)]"
+                    />
                     <group expand="0" string="Group By">
-                        <filter string="Model" name="Model" domain="[]" context="{'group_by':'model'}"/>
+                        <filter string="Model" name="Model" domain="[]" context="{'group_by':'model'}" />
                     </group>
                 </search>
             </field>
@@ -131,7 +162,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
             <field name="res_model">celery.task.setting</field>
             <field name="view_mode">tree,form</field>
             <field name="context">{'search_default_all': 1}</field>
-            <field name="view_id" ref="view_celery_task_setting_tree"/>
+            <field name="view_id" ref="view_celery_task_setting_tree" />
         </record>
     </data>
 </odoo>

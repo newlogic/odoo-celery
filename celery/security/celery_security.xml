@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <!-- Copyright Nova Code (http://www.novacode.nl)
 License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
-
 <odoo>
     <data>
         <record id="module_category_celery" model="ir.module.category">
@@ -12,13 +11,13 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
 
         <record id="group_celery_manager" model="res.groups">
             <field name="name">Celery Manager</field>
-            <field name="category_id" ref="celery.module_category_celery"/>
-            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+            <field name="category_id" ref="celery.module_category_celery" />
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]" />
         </record>
 
         <record id="group_celery_rpc" model="res.groups">
             <field name="name">Celery RPC</field>
-            <field name="category_id" ref="celery.module_category_celery"/>
+            <field name="category_id" ref="celery.module_category_celery" />
         </record>
     </data>
 </odoo>

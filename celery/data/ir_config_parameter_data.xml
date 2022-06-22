@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!-- Copyright Nova Code (http://www.novacode.nl)
      License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
-
 <odoo>
     <data noupdate="1">
         <record id="ir_config_parameter_celery_base_url" model="ir.config_parameter">

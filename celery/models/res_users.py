@@ -3,19 +3,21 @@
 
 import contextlib
 
+# from odoo.addons.celery.models.celery_task import _get_celery_user_config
+from .celery_task import _get_celery_user_config
+
 from odoo import api, models, tools
 from odoo.exceptions import AccessDenied
-from odoo.addons.celery.models.celery_task import _get_celery_user_config
 
 
 class Users(models.Model):
     _inherit = "res.users"
 
     @classmethod
-    @tools.ormcache('uid', 'passwd')
+    @tools.ormcache("uid", "passwd")
     def check(cls, db, uid, passwd):
         """Verifies that the given (uid, password) is authorized for the database ``db`` and
-           raise an exception if it is not."""
+        raise an exception if it is not."""
 
         # XXX (celery) copy from orignal with overrides
         if not passwd:
@@ -32,4 +34,4 @@ class Users(models.Model):
                 # XXX (celery) Altered
                 # if not self.env.user.active:
                 #     raise AccessDenied()-
-                self._check_credentials(passwd, {'interactive': False})
+                self._check_credentials(passwd, {"interactive": False})

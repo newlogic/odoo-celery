@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding='UTF-8'?>
+<?xml version="1.0" encoding='UTF-8' ?>
 <!-- Copyright Nova Code (http://www.novacode.nl)
 License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
-
 <odoo>
     <data>
         <record id="view_celery_handle_stuck_task_form" model="ir.ui.view">
@@ -10,11 +9,16 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
             <field name="arch" type="xml">
                 <form string="Change Task to Stuck">
                     <group string="The state of selected tasks shall changed to Stuck.">
-                        <field name="task_ids" nolabel="1"/>
+                        <field name="task_ids" nolabel="1" />
                     </group>
                     <footer>
-                        <button name="action_handle_stuck_tasks" string="Apply" type="object" class="btn btn-primary"/>
-                        <button string="Close" class="oe_link" special="cancel"/>
+                        <button
+                            name="action_handle_stuck_tasks"
+                            string="Apply"
+                            type="object"
+                            class="btn btn-primary"
+                        />
+                        <button string="Close" class="oe_link" special="cancel" />
                     </footer>
                 </form>
             </field>

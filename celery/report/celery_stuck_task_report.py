@@ -3,40 +3,39 @@
 
 import logging
 
-from odoo import tools
-from odoo import api, fields, models, tools, _
+from odoo import fields, models, tools
 
 _logger = logging.getLogger(__name__)
 
 
 class CeleryStuckTaskReport(models.Model):
-    _name = 'celery.stuck.task.report'
-    _description = 'Stuck Tasks Report'
+    _name = "celery.stuck.task.report"
+    _description = "Stuck Tasks Report"
     _auto = False
-    _rec_name = 'uuid'
-    _order = 'task_id DESC'
+    _rec_name = "uuid"
+    _order = "task_id DESC"
 
     def _selection_states(self):
-        return self.env['celery.task']._selection_states()
+        return self.env["celery.task"]._selection_states()
 
-    task_id = fields.Many2one('celery.task', string='Celery Task', readonly=True)
-    uuid = fields.Char(string='UUID', readonly=True)
-    model = fields.Char(string='Model', readonly=True)
-    method = fields.Char(string='Method', readonly=True)
-    ref = fields.Char(string='Reference', readonly=True)
-    queue = fields.Char(string='Queue', readonly=True)
-    state = fields.Selection(selection='_selection_states', readonly=True)
-    started_date = fields.Datetime(string='Start Time', readonly=True)
-    state_date = fields.Datetime(string='State Time', readonly=True)
-    started_age_seconds = fields.Float(string='Started Age Seconds', readonly=True)
-    state_age_seconds = fields.Float(string='State Age seconds', readonly=True)
-    started_age_minutes = fields.Float(string='Started Age Minutes', readonly=True)
-    state_age_minutes = fields.Float(string='State Age Minutes', readonly=True)
-    started_age_hours = fields.Float(string='Started Age Hours', readonly=True)
-    state_age_hours = fields.Float(string='State Age Hours', readonly=True)
-    stuck = fields.Boolean(string='Seems Stuck', readonly=True)
-    handle_stuck = fields.Boolean(string='Handle Stuck', readonly=True)
-    handle_stuck_by_cron = fields.Boolean(string='Handle Stuck by Cron', readonly=True)
+    task_id = fields.Many2one("celery.task", string="Celery Task", readonly=True)
+    uuid = fields.Char(string="UUID", readonly=True)
+    model = fields.Char(string="Model", readonly=True)
+    method = fields.Char(string="Method", readonly=True)
+    ref = fields.Char(string="Reference", readonly=True)
+    queue = fields.Char(string="Queue", readonly=True)
+    state = fields.Selection(selection="_selection_states", readonly=True)
+    started_date = fields.Datetime(string="Start Time", readonly=True)
+    state_date = fields.Datetime(string="State Time", readonly=True)
+    started_age_seconds = fields.Float(string="Started Age Seconds", readonly=True)
+    state_age_seconds = fields.Float(string="State Age seconds", readonly=True)
+    started_age_minutes = fields.Float(string="Started Age Minutes", readonly=True)
+    state_age_minutes = fields.Float(string="State Age Minutes", readonly=True)
+    started_age_hours = fields.Float(string="Started Age Hours", readonly=True)
+    state_age_hours = fields.Float(string="State Age Hours", readonly=True)
+    stuck = fields.Boolean(string="Seems Stuck", readonly=True)
+    handle_stuck = fields.Boolean(string="Handle Stuck", readonly=True)
+    handle_stuck_by_cron = fields.Boolean(string="Handle Stuck by Cron", readonly=True)
 
     def _query(self):
         query_str = """
@@ -86,9 +85,12 @@ class CeleryStuckTaskReport(models.Model):
               t.state_age_hours AS state_age_hours,
               t.handle_stuck AS handle_stuck,
               (CASE
-                 WHEN t.state = 'STARTED' AND (t.handle_stuck AND t.stuck_after_seconds > 0) THEN t.started_age_seconds > t.stuck_after_seconds
-                 WHEN t.state = 'RETRY' AND (t.handle_stuck AND t.stuck_after_seconds > 0) THEN t.state_age_seconds > t.stuck_after_seconds
-                 WHEN t.state = 'RETRYING' AND (t.handle_stuck AND t.stuck_after_seconds > 0) THEN t.state_age_seconds > t.stuck_after_seconds
+                 WHEN t.state = 'STARTED' AND (t.handle_stuck AND t.stuck_after_seconds > 0) THEN
+                  t.started_age_seconds > t.stuck_after_seconds
+                 WHEN t.state = 'RETRY' AND (t.handle_stuck AND t.stuck_after_seconds > 0) THEN
+                  t.state_age_seconds > t.stuck_after_seconds
+                 WHEN t.state = 'RETRYING' AND (t.handle_stuck AND t.stuck_after_seconds > 0) THEN
+                  t.state_age_seconds > t.stuck_after_seconds
                  ELSE False
               END) AS stuck,
               t.handle_stuck_by_cron AS handle_stuck_by_cron
@@ -125,7 +127,11 @@ class CeleryStuckTaskReport(models.Model):
     def init(self):
         try:
             tools.drop_view_if_exists(self.env.cr, self._table)
-            self.env.cr.execute("""CREATE or REPLACE VIEW %s as (%s)""" % (self._table, self._query()))
+            self.env.cr.execute(
+                """CREATE or REPLACE VIEW %s as (%s)""" % (self._table, self._query())
+            )
         except ValueError as e:
-            msg = 'UPDATE the "celery" module. Required an initial data-import. Caught Exception: {exc}'.format(exc=e)
+            msg = 'UPDATE the "celery" module. Required an initial data-import. Caught Exception: {exc}'.format(
+                exc=e
+            )
             _logger.critical(msg)

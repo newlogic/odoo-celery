@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding='UTF-8'?>
+<?xml version="1.0" encoding='UTF-8' ?>
 <!-- Copyright Nova Code (http://www.novacode.nl)
 License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
-
 <odoo>
     <data>
 	<record id="view_celery_task_tree" model="ir.ui.view">
@@ -9,19 +8,24 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
 	    <field name="model">celery.task</field>
 	    <field name="type">tree</field>
 	    <field name="arch" type="xml">
-		<tree string="Celery Tasks" create="false"
-                      decoration-muted="state in ('SUCCESS', 'CANCEL')" decoration-danger="state == 'FAILURE'" decoration-info="state == 'SCHEDULED'">
-		    <field name="uuid"/>
-                    <field name="model"/>
-                    <field name="method"/>
-                    <field name="ref"/>
-                    <field name="queue"/>
-                    <field name="create_date" readonly="1"/>
-                    <field name="started_date"/>
-                    <field name="state_date"/>
-                    <field name="scheduled_date"/>
-                    <field name="stuck"/>
-                    <field name="state"/>
+		<tree
+                    string="Celery Tasks"
+                    create="false"
+                    decoration-muted="state in ('SUCCESS', 'CANCEL')"
+                    decoration-danger="state == 'FAILURE'"
+                    decoration-info="state == 'SCHEDULED'"
+                >
+		    <field name="uuid" />
+            <field name="model" />
+            <field name="method" />
+            <field name="ref" />
+            <field name="queue" />
+            <field name="create_date" readonly="1" />
+            <field name="started_date" />
+            <field name="state_date" />
+            <field name="scheduled_date" />
+            <field name="stuck" />
+            <field name="state" />
 		</tree>
 	    </field>
         </record>
@@ -31,92 +35,111 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
 	    <field name="model">celery.task</field>
 	    <field name="type">form</field>
 	    <field name="arch" type="xml">
-		<form string="Celery Tasks" create="false">
-                    <header>
-                        <button
-                            name="action_open_related_record" type="object" string="Related"
-                            attrs="{'invisible': [('res_model', '=', False)]}"/>
-                        <field name="state" widget="statusbar" statusbar_visible="PENDING,STARTED,SCHEDULED,RETRY,RETRYING,FAILURE,SUCCESS"/>
-                    </header>
-                    <sheet>
-                        <!-- fa-retweet (icon): because fontawesome fa-refresh isn't available in Odoo yet. -->
-                        <button name="refresh_view" class="pull-right" type="object" icon="fa-retweet">Refresh view</button>
-                        <field name="res_model" invisible="1"/>
+		    <form string="Celery Tasks" create="false">
+                <header>
+                    <button
+                            name="action_open_related_record"
+                            type="object"
+                            string="Related"
+                            attrs="{'invisible': [('res_model', '=', False)]}"
+                        />
+                    <field
+                            name="state"
+                            widget="statusbar"
+                            statusbar_visible="PENDING,STARTED,SCHEDULED,RETRY,RETRYING,FAILURE,SUCCESS"
+                        />
+                </header>
+                <sheet>
+                    <!-- fa-retweet (icon): because fontawesome fa-refresh isn't available in Odoo yet. -->
+                    <button
+                            name="refresh_view"
+                            class="pull-right"
+                            type="object"
+                            icon="fa-retweet"
+                        >Refresh view</button>
+                    <field name="res_model" invisible="1" />
+                    <group>
+                        <field name="uuid" />
+                        <field name="ref" attrs="{'invisible': [('ref', '=', False)]}" />
+                    </group>
+                    <group>
                         <group>
-                            <field name="uuid"/>
-                            <field name="ref" attrs="{'invisible': [('ref', '=', False)]}"/>
+                            <field name="model" />
+                            <field name="method" />
                         </group>
                         <group>
-                            <group>
-                                <field name="model"/>
-                                <field name="method"/>
-                            </group>
-                            <group>
-                                <field name="queue"/>
-                                <field name="create_date"/>
-                                <field name="scheduled_date"/>
-                                <field name="started_date"/>
-                                <field name="state_date"/>
-                                <field name="user_id"/>
-                            </group>
+                            <field name="queue" />
+                            <field name="create_date" />
+                            <field name="scheduled_date" />
+                            <field name="started_date" />
+                            <field name="state_date" />
+                            <field name="user_id" />
                         </group>
-                        <notebook>
-                            <page name="result" string="Result" attrs="{'invisible': [('result', '=', False)]}">
-                                <group>
-                                    <field nolabel="1" name="result"/>
+                    </group>
+                    <notebook>
+                        <page name="result" string="Result" attrs="{'invisible': [('result', '=', False)]}">
+                            <group>
+                                <field nolabel="1" name="result" />
+                            </group>
+                        </page>
+                        <page
+                                name="exc_info"
+                                string="Retry/Failure Information"
+                                attrs="{'invisible': ['|', ('state', 'not in', ['RETRY', 'RETRYING', 'FAILURE']), ('result', '!=', False)]}"
+                            >
+                            <div attrs="{'invisible': [('exc_info', '!=', False)]}">
+                                <p>No Retry/Failure has occurred on this moment.</p>
+                                <p>Update the information by refreshing this view (button above).</p>
+                            </div>
+                            <group attrs="{'invisible': [('exc_info', '=', False)]}">
+                                <code>
+                                    <field nolabel="1" name="exc_info" />
+                                </code>
+                            </group>
+                        </page>
+                        <page name="params" string="Parameters">
+                            <group>
+                                <group name="celery_worker" string="Celery worker">
+                                    <field name="retry" />
+                                    <field name="max_retries" />
+                                    <field name="countdown" />
                                 </group>
-                            </page>
-                            <page name="exc_info" string="Retry/Failure Information"
-                                  attrs="{'invisible': ['|', ('state', 'not in', ['RETRY', 'RETRYING', 'FAILURE']), ('result', '!=', False)]}">
-                                <div attrs="{'invisible': [('exc_info', '!=', False)]}">
-                                    <p>No Retry/Failure has occurred on this moment.</p>
-                                    <p>Update the information by refreshing this view (button above).</p>
-                                </div>
-                                <group attrs="{'invisible': [('exc_info', '=', False)]}">
-                                    <code>
-                                        <field nolabel="1" name="exc_info"/>
-                                    </code>
-                                </group>
-                            </page>
-                            <page name="params" string="Parameters">
-                                <group>
-                                    <group name="celery_worker" string="Celery worker">
-                                        <field name="retry"/>
-                                        <field name="max_retries"/>
-                                        <field name="countdown"/>
-                                    </group>
-                                    <group name="retry_countdown_settings"
-                                           string="Retry Countdown settings"
-                                           attrs="{'invisible': [('retry', '=', False), ('countdown', '=', False)]}">
-                                        <field name="retry_countdown_setting" string="Retry Countdown"/>
-                                        <field
+                                <group
+                                        name="retry_countdown_settings"
+                                        string="Retry Countdown settings"
+                                        attrs="{'invisible': [('retry', '=', False), ('countdown', '=', False)]}"
+                                    >
+                                    <field name="retry_countdown_setting" string="Retry Countdown" />
+                                    <field
                                             name="retry_countdown_add_seconds"
                                             string="Seconnds (+ countdown)"
-                                            attrs="{'invisible': ['|', ('retry', '=', False), ('retry_countdown_setting', '!=', 'ADD_SECS')]}"/>
-                                        <field
+                                            attrs="{'invisible': ['|', ('retry', '=', False), ('retry_countdown_setting', '!=', 'ADD_SECS')]}"
+                                        />
+                                    <field
                                             name="retry_countdown_multiply_retries_seconds"
                                             string="Seconds (* retries)"
-                                            attrs="{'invisible': ['|', ('retry', '=', False), ('retry_countdown_setting', '!=', 'MUL_RETRIES_SECS')]}"/>
-                                    </group>
-                                    <group name="retry_broker_connection" string="Retry Broker Connection">
-                                        <field name="interval_start"/>
-                                        <field name="interval_step"/>
-                                    </group>
+                                            attrs="{'invisible': ['|', ('retry', '=', False), ('retry_countdown_setting', '!=', 'MUL_RETRIES_SECS')]}"
+                                        />
                                 </group>
-                                <group name="kwargs" cols="4">
-                                    <field name="kwargs" widget="char"/>
+                                <group name="retry_broker_connection" string="Retry Broker Connection">
+                                    <field name="interval_start" />
+                                    <field name="interval_step" />
                                 </group>
-                                <group name="transaction_strategy">
-                                    <field name="transaction_strategy"/>
-                                </group>
-                            </page>
-                        </notebook>
-                    </sheet>
-                    <div class="oe_chatter">
-                        <field name="message_follower_ids" widget="mail_followers"/>
-                        <field name="message_ids" widget="mail_thread"/>
-                    </div>
-		</form>
+                            </group>
+                            <group name="kwargs" cols="4">
+                                <field name="kwargs" widget="char" />
+                            </group>
+                            <group name="transaction_strategy">
+                                <field name="transaction_strategy" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+    		</form>
 	    </field>
         </record>
 
@@ -125,50 +148,69 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
 	    <field name="model">celery.task</field>
 	    <field name="type">search</field>
 	    <field name="arch" type="xml">
-		<search string="Celery Tasks">
-		    <field name="uuid"/>
-                    <field name="model"/>
-                    <field name="method"/>
-                    <field name="ref"/>
-                    <field name="exc_info"/>
-                    <field name="queue"/>
-                    <field name="transaction_strategy"/>
-                    <filter name="pending" string="Pending"
-                            domain="[('state', '=', 'PENDING')]"/>
-                    <filter name="scheduled" string="Scheduled"
-                            domain="[('state', '=', 'SCHEDULED')]"/>
-                    <filter name="started" string="Started"
-                            domain="[('state', '=', 'STARTED')]"/>
-                    <filter name="retry" string="Retry"
-                            domain="[('state', '=', 'RETRY')]"/>
-                    <filter name="retry" string="Retrying"
-                            domain="[('state', '=', 'RETRYING')]"/>
-                    <filter name="failure" string="Failure"
-                            domain="[('state', '=', 'FAILURE')]"/>
-                    <filter name="success" string="Success"
-                            domain="[('state', '=', 'SUCCESS')]"/>
-                    <filter name="cancel" string="Cancel"
-                            domain="[('state', '=', 'CANCEL')]"/>
-                    <separator/>
-                    <filter name="stuck" string="Stuck"
-                            domain="[('stuck', '=', True)]"/>
-                    <separator/>
-                    <filter name="today" string="Added Today" domain="[('create_date','&gt;', (context_today() - datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d') )]"/>
-                    <filter name="this_week" string="Added In The Last 7 Days" domain="[('create_date','&gt;', (context_today() - datetime.timedelta(days=7)).strftime('%%Y-%%m-%%d') )]"/>
-                    <filter name="this_month" string="Added In The Last 30 Days" domain="[('create_date','&gt;', (context_today() - datetime.timedelta(days=30)).strftime('%%Y-%%m-%%d') )]"/>
-                    <filter name="this_year" string="Added This Year" domain="[('create_date','&lt;=', time.strftime('%%Y-12-31')),('create_date','&gt;=',time.strftime('%%Y-01-01'))]"/>
-                    <separator/>
-                    <filter name="scheduled_today" string="Scheduled Today" domain="[('state','=','SCHEDULED'),('scheduled_date','&gt;=', datetime.datetime.now()),('scheduled_date','&lt;=',(context_today() + datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d') )]"/>
-                    <filter name="scheduled_next_7days" string="Scheduled In the Next 7 days" domain="[('state','=','SCHEDULED'),('scheduled_date','&gt;=', datetime.datetime.now()),('scheduled_date','&lt;=',(context_today() + datetime.timedelta(days=7)).strftime('%%Y-%%m-%%d') )]"/>
-                    <filter name="scheduled_in_the_past" string="Scheduled Past Today" domain="[('state','=','SCHEDULED'),('scheduled_date','&lt;=', datetime.datetime.now())]"/>
-                    <separator/>
-		    <group expand="0" string="Group By">
-	                <filter string="Model" name="model" domain="[]" context="{'group_by': 'model'}"/>
-	                <filter string="Task/method" name="method" domain="[]" context="{'group_by': 'method'}"/>
-                        <filter string="State" name="state" domain="[]" context="{'group_by': 'state'}"/>
-                        <filter string="Queue" name="queue" domain="[]" context="{'group_by': 'queue'}"/>
-                    </group>
-                </search>
+            <search string="Celery Tasks">
+                <field name="uuid" />
+                <field name="model" />
+                <field name="method" />
+                <field name="ref" />
+                <field name="exc_info" />
+                <field name="queue" />
+                <field name="transaction_strategy" />
+                <filter name="pending" string="Pending" domain="[('state', '=', 'PENDING')]" />
+                <filter name="scheduled" string="Scheduled" domain="[('state', '=', 'SCHEDULED')]" />
+                <filter name="started" string="Started" domain="[('state', '=', 'STARTED')]" />
+                <filter name="retry" string="Retry" domain="[('state', '=', 'RETRY')]" />
+                <filter name="retry" string="Retrying" domain="[('state', '=', 'RETRYING')]" />
+                <filter name="failure" string="Failure" domain="[('state', '=', 'FAILURE')]" />
+                <filter name="success" string="Success" domain="[('state', '=', 'SUCCESS')]" />
+                <filter name="cancel" string="Cancel" domain="[('state', '=', 'CANCEL')]" />
+                <separator />
+                <filter name="stuck" string="Stuck" domain="[('stuck', '=', True)]" />
+                <separator />
+                <filter
+                        name="today"
+                        string="Added Today"
+                        domain="[('create_date','&gt;', (context_today() - datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d') )]"
+                    />
+                <filter
+                        name="this_week"
+                        string="Added In The Last 7 Days"
+                        domain="[('create_date','&gt;', (context_today() - datetime.timedelta(days=7)).strftime('%%Y-%%m-%%d') )]"
+                    />
+                <filter
+                        name="this_month"
+                        string="Added In The Last 30 Days"
+                        domain="[('create_date','&gt;', (context_today() - datetime.timedelta(days=30)).strftime('%%Y-%%m-%%d') )]"
+                    />
+                <filter
+                        name="this_year"
+                        string="Added This Year"
+                        domain="[('create_date','&lt;=', time.strftime('%%Y-12-31')),('create_date','&gt;=',time.strftime('%%Y-01-01'))]"
+                    />
+                <separator />
+                <filter
+                        name="scheduled_today"
+                        string="Scheduled Today"
+                        domain="[('state','=','SCHEDULED'),('scheduled_date','&gt;=', datetime.datetime.now()),('scheduled_date','&lt;=',(context_today() + datetime.timedelta(days=1)).strftime('%%Y-%%m-%%d') )]"
+                    />
+                <filter
+                        name="scheduled_next_7days"
+                        string="Scheduled In the Next 7 days"
+                        domain="[('state','=','SCHEDULED'),('scheduled_date','&gt;=', datetime.datetime.now()),('scheduled_date','&lt;=',(context_today() + datetime.timedelta(days=7)).strftime('%%Y-%%m-%%d') )]"
+                    />
+                <filter
+                        name="scheduled_in_the_past"
+                        string="Scheduled Past Today"
+                        domain="[('state','=','SCHEDULED'),('scheduled_date','&lt;=', datetime.datetime.now())]"
+                    />
+                <separator />
+                <group expand="0" string="Group By">
+                    <filter string="Model" name="model" domain="[]" context="{'group_by': 'model'}" />
+                    <filter string="Task/method" name="method" domain="[]" context="{'group_by': 'method'}" />
+                    <filter string="State" name="state" domain="[]" context="{'group_by': 'state'}" />
+                    <filter string="Queue" name="queue" domain="[]" context="{'group_by': 'queue'}" />
+                </group>
+            </search>
 	    </field>
         </record>
 
@@ -176,7 +218,7 @@ License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html) -->
             <field name="name">Celery Tasks</field>
             <field name="res_model">celery.task</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="view_celery_task_tree"/>
+            <field name="view_id" ref="view_celery_task_tree" />
         </record>
     </data>
 </odoo>

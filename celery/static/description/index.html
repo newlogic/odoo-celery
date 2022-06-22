@@ -1,13 +1,13 @@
 <section class="oe_container">
   <div class="oe_row oe_spaced">
-    <h2 class="oe_slogan" style="color:#875A7B;"><b>Celery</b>: Distributed Task Queue</h2>
+    <h2 class="oe_slogan" style="color: #875a7b"><b>Celery</b>: Distributed Task Queue</h2>
     <h3 class="oe_slogan">Odoo integration of the Python #1 asynchronous task queue</h3>
 
-    <div class="alert alert-info" style="padding:8px;font-weight:300;font-size:20px;">
+    <div class="alert alert-info" style="padding: 8px; font-weight: 300; font-size: 20px">
       <i class="fa fa-hand-o-right"></i><b> Features: </b>
       <ul class="list-unstyled">
         <li>
-	  <i class="fa fa-check-square-o text-primary"></i>
+          <i class="fa fa-check-square-o text-primary"></i>
           Put <em>model-methods</em> on the Celery Task Queue.
         </li>
         <li>
@@ -28,27 +28,28 @@
         </li>
       </ul>
     </div>
-    
+
     <div class="oe_row oe_centeralign mb32">
       <h4>Check out the links below, for more info about <i>Celery</i>.</h4>
       <h5>
-        <i class="fa fa-info-circle"/> Celery website<br/><br/>
+        <i class="fa fa-info-circle" /> Celery website<br /><br />
         <code>http://celeryproject.org</code>
       </h5>
       <h5>
-        <i class="fa fa-info-circle"/> Celery installation<br/><br/>
+        <i class="fa fa-info-circle" /> Celery installation<br /><br />
         <code>http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html</code>
       </h5>
     </div>
+  </div>
 </section>
 
 <section class="oe_container">
   <div class="oe_row oe_spaced">
-    <h2 class="oe_slogan" style="color:#875A7B;">Put a <em>model-method</em> on the Celery Task Queue</h2>
+    <h2 class="oe_slogan" style="color: #875a7b">Put a <em>model-method</em> on the Celery Task Queue</h2>
     <h3 class="oe_slogan">Just Python code to call from an Odoo model</h3>
   </div>
   <div class="oe_row oe_spaced">
-    <h4 style="border-bottom: 1px solid;">Example</h4>
+    <h4 style="border-bottom: 1px solid">Example</h4>
     <p class="mt16 mb16"><strong>Model and method:</strong></p>
     <ul>
       <li><strong>model</strong>: "celery.example"</li>
@@ -57,7 +58,7 @@
 
     <p class="mt16 mb16"><strong>Celery Options:</strong></p>
     <p>Shall be provided to <code>kwargs</code> of the <code>call_task</code> method</p>
-    <pre style="background-color: #dedede;">
+    <pre style="background-color: #dedede">
 celery = {
     'queue': 'high.priority',
     'countdown': 5,
@@ -67,13 +68,16 @@ celery = {
     'retry_policy': {
         'interval_start': 30
     }
-}</pre>
+}</pre
+    >
     <p class="mt16 mb16"><strong>Calling the task:</strong></p>
-    <pre style="background-color: #dedede;">self.env["celery.task"].call_task("celery.example", "schedule_import", celery=celery)</pre>
+    <pre style="background-color: #dedede">
+self.env["celery.task"].call_task("celery.example", "schedule_import", celery=celery)</pre
+    >
   </div>
 
   <div class="oe_row oe_spaced">
-    <h4 style="border-bottom: 1px solid;">Celery Options</h4>
+    <h4 style="border-bottom: 1px solid">Celery Options</h4>
     <p>All Celery options are optional (not required).</p>
     <table class="table table-bordered">
       <thead>
@@ -92,23 +96,36 @@ celery = {
         <tr>
           <td><code>countdown</code></td>
           <td>The countdown is a shortcut to set ETA by seconds into the future.</td>
-          <td>ETA and Countdown: <code>http://docs.celeryproject.org/en/latest/userguide/calling.html#eta-and-countdown</code></td>
+          <td>
+            ETA and Countdown:
+            <code>http://docs.celeryproject.org/en/latest/userguide/calling.html#eta-and-countdown</code>
+          </td>
         </tr>
         <tr>
           <td><code>retry</code></td>
           <td>Set to <code>True</code> to enable the retry of sending task messages.</td>
-          <td>Message Sending Retry: <code>http://docs.celeryproject.org/en/latest/userguide/calling.html#message-sending-retry</code></td>
+          <td>
+            Message Sending Retry:
+            <code>http://docs.celeryproject.org/en/latest/userguide/calling.html#message-sending-retry</code>
+          </td>
         </tr>
         <tr>
           <td><code>retry_countdown_setting</code></td>
-          <td>Specify whether and how to increase the <em>Retry Countdown</em> by:
+          <td>
+            Specify whether and how to increase the <em>Retry Countdown</em> by:
             <ul>
-              <li>ADD_SECS:<br/>
-                <code>countdown = countdown + retry_countdown_add_seconds</code></li>
-              <li>MUL_RETRIES:<br/>
-                <code>countdown = countdown * request.retries</code></li>
-              <li>MUL_RETRIES_SECS:<br/>
-                <code>countdown = request.retries * retry_countdown_multiply_retries_seconds</code></li>
+              <li>
+                ADD_SECS:<br />
+                <code>countdown = countdown + retry_countdown_add_seconds</code>
+              </li>
+              <li>
+                MUL_RETRIES:<br />
+                <code>countdown = countdown * request.retries</code>
+              </li>
+              <li>
+                MUL_RETRIES_SECS:<br />
+                <code>countdown = request.retries * retry_countdown_multiply_retries_seconds</code>
+              </li>
             </ul>
           </td>
           <td>This is a custom option which affects the Celery <code>countdown</code> option.</td>
@@ -118,23 +135,32 @@ celery = {
           <td>Specify the seconds (integer field) to add to the <em>Retry Countdown</em>.</td>
           <td>This is a custom option which affects the Celery <code>countdown</code> option.</td>
         </tr>
-        <tr>
+        <tr></tr>
         <tr>
           <td><code>retry_countdown_multiply_retries_seconds</code></td>
-          <td>Specify the seconds (integer field) to multiply with request retries, which becomes the <em>Retry Countdown</em>.</td>
+          <td>
+            Specify the seconds (integer field) to multiply with request retries, which becomes the
+            <em>Retry Countdown</em>.
+          </td>
           <td>This is a custom option which affects the Celery <code>countdown</code> option.</td>
         </tr>
         <tr>
           <td><code>retry_policy</code></td>
-          <td>Options when retrying publishing a task message in the case of connection loss or other connection errors.</td>
-          <td>Message Sending Retry: <code>http://docs.celeryproject.org/en/latest/userguide/calling.html#message-sending-retry</code></td>
+          <td>
+            Options when retrying publishing a task message in the case of connection loss or other connection
+            errors.
+          </td>
+          <td>
+            Message Sending Retry:
+            <code>http://docs.celeryproject.org/en/latest/userguide/calling.html#message-sending-retry</code>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <div class="oe_row oe_spaced">
-    <h4 style="border-bottom: 1px solid;">Extra kwargs</h4>
+    <h4 style="border-bottom: 1px solid">Extra kwargs</h4>
     <p>Extra <code>kwargs</code> are optional (not required).</p>
     <table class="table table-bordered">
       <thead>
@@ -144,186 +170,232 @@ celery = {
         </tr>
         <tr>
           <td><code>transaction_strategy</code></td>
-          <td>Specifies when the task shall apply (ORM create and send to Celery MQ):
+          <td>
+            Specifies when the task shall apply (ORM create and send to Celery MQ):
             <ul>
-              <li><code>after_commit</code>:<br/>
+              <li>
+                <code>after_commit</code>:<br />
                 Apply task after commit of the main/caller transaction (default setting).
               </li>
-              <li><code>immediate</code>:<br/>
+              <li>
+                <code>immediate</code>:<br />
                 Apply task immediately from the main/caller transaction, even if it ain't committed yet.
               </li>
             </ul>
           </td>
         </tr>
       </thead>
-      <tbody>
+      <tbody></tbody>
     </table>
   </div>
 </section>
 
 <section class="oe_container oe_dark">
   <div class="oe_row oe_spaced">
-    <h2 class="oe_slogan" style="color:#875A7B;">Monitor and control the Celery Task Queue</h2>
+    <h2 class="oe_slogan" style="color: #875a7b">Monitor and control the Celery Task Queue</h2>
     <div class="oe_row_img oe_centered">
       <h4 class="oe_mb16 text-center">List of queued tasks</h4>
-      <img class="oe_demo oe_picture oe_screenshot" src="odoo-task-queue-failure.png">
+      <img class="oe_demo oe_picture oe_screenshot" src="odoo-task-queue-failure.png" />
     </div>
     <div class="oe_row_img oe_centered">
       <h4 class="oe_mb16 text-center">Task Failure info</h4>
-      <img class="oe_demo oe_picture oe_screenshot" src="odoo-task-failure.png">
+      <img class="oe_demo oe_picture oe_screenshot" src="odoo-task-failure.png" />
     </div>
     <div class="oe_row_img oe_centered">
       <h4 class="oe_mb16 text-center">Tasks waiting for Retry</h4>
-      <img class="oe_demo oe_picture oe_screenshot" src="odoo-task-queue-retry.png">
+      <img class="oe_demo oe_picture oe_screenshot" src="odoo-task-queue-retry.png" />
     </div>
     <div class="oe_row_img oe_centered">
       <h4 class="oe_mb16 text-center">Task waiting for Retry with Failure info</h4>
-      <img class="oe_demo oe_picture oe_screenshot" src="odoo-task-retry.png">
+      <img class="oe_demo oe_picture oe_screenshot" src="odoo-task-retry.png" />
     </div>
     <div class="oe_row_img oe_centered">
       <h4 class="oe_mb16 text-center">Requeue a Failed Task</h4>
-      <img class="oe_demo oe_picture oe_screenshot" src="odoo-requeue-single-task.png">
+      <img class="oe_demo oe_picture oe_screenshot" src="odoo-requeue-single-task.png" />
     </div>
     <div class="oe_row_img oe_centered">
       <h4 class="oe_mb16 text-center">Requeue multiple Failed Tasks</h4>
-      <img class="oe_demo oe_picture oe_screenshot" src="odoo-requeue-multiple-tasks.png">
+      <img class="oe_demo oe_picture oe_screenshot" src="odoo-requeue-multiple-tasks.png" />
     </div>
   </div>
 </section>
 
 <section class="oe_container">
   <div class="oe_row oe_spaced">
-    <h2 class="oe_slogan" style="color:#875A7B;">Installation and configuration</h2>
+    <h2 class="oe_slogan" style="color: #875a7b">Installation and configuration</h2>
     <div class="oe_row_img oe_centered">
       <h4 class="oe_mb16 text-center">Celery and Message broker</h4>
       <div class="oe_row oe_centeralign mb64">
         <h5>
-          <i class="fa fa-info-circle"/> Celery Installation<br/><br/>
+          <i class="fa fa-info-circle" /> Celery Installation<br /><br />
           <code>http://docs.celeryproject.org/en/latest/getting-started/first-steps-with-celery.html</code>
         </h5>
       </div>
     </div>
     <div class="oe_row_img oe_centered">
       <h4 class="oe_mb16 text-center">Odoo configuration</h4>
-      <h5>All you need is to determine the Odoo Celery user and setup the credentials for XML-RPC authentication.</h5>
+      <h5>
+        All you need is to determine the Odoo Celery user and setup the credentials for XML-RPC
+        authentication.
+      </h5>
       <p>This enables the Celery process to authenticate in Odoo, by the XML-RPC server.</p>
-      <p>To support different kind of deployment and build tools, the credentials can either be setup as:
-        <ul>
-          <li>
-            <p class="oe_mb16">(OS) Environment variables of the user running the Odoo server process: <code>ODOO_CELERY_USER</code> and <code>ODOO_CELERY_PASSWORD</code></p>
-          </li>
-          <li>
-	   <p class="oe_mb16">(OS) Environment variables for third-party broker: <code>ODOO_CELERY_BROKER</code>, <code>ODOO_CELERY_BROKER_HEARTBEAT</code>, <code>ODOO_CELERY_WORKER_PREFETCH_MULTIPLIER</code></p>
-	  </li>
-          <li>
-            <p>Put in the <code>odoo.conf</code> file, e.g:
-              <pre style="background-color: #dedede;">
+      <p>To support different kind of deployment and build tools, the credentials can either be setup as:</p>
+      <ul>
+        <li>
+          <p class="oe_mb16">
+            (OS) Environment variables of the user running the Odoo server process:
+            <code>ODOO_CELERY_USER</code> and <code>ODOO_CELERY_PASSWORD</code>
+          </p>
+        </li>
+        <li>
+          <p class="oe_mb16">
+            (OS) Environment variables for third-party broker: <code>ODOO_CELERY_BROKER</code>,
+            <code>ODOO_CELERY_BROKER_HEARTBEAT</code>, <code>ODOO_CELERY_WORKER_PREFETCH_MULTIPLIER</code>
+          </p>
+        </li>
+        <li>
+          <p>Put in the <code>odoo.conf</code> file, e.g:</p>
+          <pre style="background-color: #dedede">
 celery_user = Odoo-User
-celery_password = Odoo-User-Password</pre>
-            <p class="oe_mb16">See <code>example.odoo.conf</code>, visit link: <code>https://github.com/novacode-nl/odoo-celery/blob/14.0/celery/example.odoo.conf</code></p>
-          </li>
-          <li>
-            <p>Put in the <code>odoo.conf</code> file, under section <code>[celery]</code> e.g:
-              <pre style="background-color: #dedede;">
+celery_password = Odoo-User-Password</pre
+          >
+          <p class="oe_mb16">
+            See <code>example.odoo.conf</code>, visit link:
+            <code>https://github.com/novacode-nl/odoo-celery/blob/14.0/celery/example.odoo.conf</code>
+          </p>
+        </li>
+        <li>
+          <p>Put in the <code>odoo.conf</code> file, under section <code>[celery]</code> e.g:</p>
+          <pre style="background-color: #dedede">
 [celery]
 user = Odoo-User
-password = Odoo-User-Password</pre>
-            <p>See <code>example_section_celery.odoo.conf</code>, visit link: <code>https://github.com/novacode-nl/odoo-celery/blob/14.0/celery/example_section_celery.odoo.conf</code></p>
-          </li>
+password = Odoo-User-Password</pre
+          >
+          <p>
+            See <code>example_section_celery.odoo.conf</code>, visit link:
+            <code
+              >https://github.com/novacode-nl/odoo-celery/blob/14.0/celery/example_section_celery.odoo.conf</code
+            >
+          </p>
+        </li>
+      </ul>
     </div>
     <div class="oe_row_img oe_centered">
       <h4 class="oe_mb16 text-center">Start the Celery (Odoo) worker server</h4>
-      <p>Check the Celery Documentation for more ways to start and manage the server/proces. E.g. by <strong>Supervisor</strong></p>
-      <p>The Celery (Odoo) worker => Python file <code>odoo.py</code>, which is located directly under the "celery" module directory.</p>
+      <p>
+        Check the Celery Documentation for more ways to start and manage the server/proces. E.g. by
+        <strong>Supervisor</strong>
+      </p>
+      <p>
+        The Celery (Odoo) worker => Python file <code>odoo.py</code>, which is located directly under the
+        "celery" module directory.
+      </p>
 
-      <p><strong>Start the worker (default/celery queue) on command line, whereas "odoo" references to the Python file:</strong></p>
-      <pre style="background-color: #dedede;"># celery -A odoo worker --loglevel=info</pre>
+      <p>
+        <strong
+          >Start the worker (default/celery queue) on command line, whereas "odoo" references to the Python
+          file:</strong
+        >
+      </p>
+      <pre style="background-color: #dedede"># celery -A odoo worker --loglevel=info</pre>
 
       <p><strong>Start a worker as a named queue:</strong></p>
-      <pre style="background-color: #dedede;"># celery -A odoo worker --loglevel=info -Q high.priority -n high.priority</pre>
+      <pre style="background-color: #dedede">
+# celery -A odoo worker --loglevel=info -Q high.priority -n high.priority</pre
+      >
     </div>
   </div>
 </section>
 
 <section class="oe_container oe_dark">
   <div class="oe_row oe_spaced">
-    <h2 class="oe_slogan" style="color:#875A7B;">"Celery Example" module</h2>
+    <h2 class="oe_slogan" style="color: #875a7b">"Celery Example" module</h2>
     <h3 class="oe_slogan">Demo of 2 implemented example tasks, queued by 2 buttons</h3>
     <div class="oe_row oe_centeralign mb16">
       <h4>Check out the "Celery Example" module</h4>
       <ul>
         <li>After installation, go to the menu "Celery / Example Task".</li>
         <li>Click button(s) "Queue create Line" shown in screensshot, which puts a task on the queue.</li>
-        <li>Check the queue (menu: Celery / Tasks). Check the form of the Example record - new Lines had been created.</li>
+        <li>
+          Check the queue (menu: Celery / Tasks). Check the form of the Example record - new Lines had been
+          created.
+        </li>
       </ul>
-        <h5>
-          <i class="fa fa-info-circle"/> Celery Examples module<br/><br/>
-          <code>https://apps.odoo.com/apps/modules/11.0/celery_example/</code>
-        </h5>
-      <img class="oe_demo oe_picture oe_screenshot" src="odoo-example-task-list.png">
-      <img class="oe_demo oe_picture oe_screenshot" src="odoo-example-task-form.png">
+      <h5>
+        <i class="fa fa-info-circle" /> Celery Examples module<br /><br />
+        <code>https://apps.odoo.com/apps/modules/11.0/celery_example/</code>
+      </h5>
+      <img class="oe_demo oe_picture oe_screenshot" src="odoo-example-task-list.png" />
+      <img class="oe_demo oe_picture oe_screenshot" src="odoo-example-task-form.png" />
     </div>
   </div>
 </section>
 
 <section class="oe_container">
   <div class="oe_row oe_spaced">
-    <h2 class="oe_slogan" style="color:#875A7B;">Changelog</h2>
+    <h2 class="oe_slogan" style="color: #875a7b">Changelog</h2>
     <h4 class="oe_mb16">0.27</h4>
     <ul>
       <li>
-        Improvement: Add tracking for field <code>exc_info</code> (Exception Info).<br/>
+        Improvement: Add tracking for field <code>exc_info</code> (Exception Info).<br />
         (GitHub PR: <code>https://github.com/novacode-nl/odoo-celery/pull/38</code>)
       </li>
       <li>
-        Imrpvovement: Implement broker connection based on env.vars<br/>
+        Imrpvovement: Implement broker connection based on env.vars<br />
         (GitHub PR: <code>https://github.com/novacode-nl/odoo-celery/pull/41</code>)
       </li>
     </ul>
     <h4 class="oe_mb16">0.26</h4>
     <ul>
       <li>
-        Fix: AccessDenied error is raised if no password was passed to the function, but this exception was not imported.<br/>
+        Fix: AccessDenied error is raised if no password was passed to the function, but this exception was
+        not imported.<br />
         (GitHub PR: <code>https://github.com/novacode-nl/odoo-celery/pull/37</code>)
       </li>
     </ul>
     <h4 class="oe_mb16">0.25</h4>
     <ul>
       <li>
-        Fix relating to 0.21 (support inactive Celery User). Inactive user not allowed anymore, since recent Odoo 14.0<br/>
-        Override the <code>res.users</code> access <code>check</code> method: only for Celery user (from config) remove the active check.</li>
+        Fix relating to 0.21 (support inactive Celery User). Inactive user not allowed anymore, since recent
+        Odoo 14.0<br />
+        Override the <code>res.users</code> access <code>check</code> method: only for Celery user (from
+        config) remove the active check.
+      </li>
     </ul>
     <h4 class="oe_mb16">0.24</h4>
     <ul>
       <li>
-        Fix crash (upon install, update) due to faulty config of Window Action "Flag/update task: Stuck" (<code>action_celery_task_set_state_stuck</code>) - introduced by porting to Odoo 14.0.
+        Fix crash (upon install, update) due to faulty config of Window Action "Flag/update task: Stuck"
+        (<code>action_celery_task_set_state_stuck</code>) - introduced by porting to Odoo 14.0.
       </li>
     </ul>
     <h4 class="oe_mb16">0.23</h4>
     <ul>
-      <li>
-        Fix cancellation of stucked tasks(s) wasn't possible.
-      </li>
-      <li>
-        Fix requeue of stucked tasks(s) wasn't possible.
-      </li>
+      <li>Fix cancellation of stucked tasks(s) wasn't possible.</li>
+      <li>Fix requeue of stucked tasks(s) wasn't possible.</li>
     </ul>
     <h4 class="oe_mb16">0.22</h4>
     <ul>
       <li>
-        Upon processing task <code>rpc_run_task</code> (method), only update the related record fields (<code>res_model</code>, <code>res_ids</code>) if these have a value set in the method its result.<br/>
+        Upon processing task <code>rpc_run_task</code> (method), only update the related record fields
+        (<code>res_model</code>, <code>res_ids</code>) if these have a value set in the method its result.<br />
         This enables the API to store these related record fields upfront, when the task is created.
       </li>
     </ul>
     <h4 class="oe_mb16">0.21</h4>
     <ul>
-      <li>Some security hardening: support inactive Celery User, which refuses regular (web) authentication/login.</li>
+      <li>
+        Some security hardening: support inactive Celery User, which refuses regular (web)
+        authentication/login.
+      </li>
     </ul>
     <h4 class="oe_mb16">0.20</h4>
     <ul>
       <li>
-        [FIX] In <code>call_task()</code> the search of <code>celery.task.setting</code> results in <code>Access Denied by ACLs for operation: read, model: celery.task.setting</code>.<br/>
-        Solved by calling the <code>celery.task.setting</code> <code>search()</code> with <code>sudo()</code>.</li>
+        [FIX] In <code>call_task()</code> the search of <code>celery.task.setting</code> results in
+        <code>Access Denied by ACLs for operation: read, model: celery.task.setting</code>.<br />
+        Solved by calling the <code>celery.task.setting</code> <code>search()</code> with <code>sudo()</code>.
+      </li>
     </ul>
     <h4 class="oe_mb16">0.19</h4>
     <ul>
@@ -332,13 +404,24 @@ password = Odoo-User-Password</pre>
     </ul>
     <h4 class="oe_mb16">0.18</h4>
     <ul>
-      <li>Configurable (database) transaction strategy, when the task shall apply (ORM create and send to Celery MQ).</li>
-      <li>From now on - by default a task shall apply after commit of the main/caller transaction, instead of immediately in the main/caller transaction.</li>
+      <li>
+        Configurable (database) transaction strategy, when the task shall apply (ORM create and send to Celery
+        MQ).
+      </li>
+      <li>
+        From now on - by default a task shall apply after commit of the main/caller transaction, instead of
+        immediately in the main/caller transaction.
+      </li>
     </ul>
     <h4 class="oe_mb16">0.17</h4>
     <ul>
-      <li>Task scheduling added - being able to schedule tasks in a specified time interval or certain day(s) of the week.</li>
-      <li>A new task state - Scheduled, is handled by an Odoo cron job - "Celery: Handle Scheduled Tasks".</li>
+      <li>
+        Task scheduling added - being able to schedule tasks in a specified time interval or certain day(s) of
+        the week.
+      </li>
+      <li>
+        A new task state - Scheduled, is handled by an Odoo cron job - "Celery: Handle Scheduled Tasks".
+      </li>
     </ul>
     <h4 class="oe_mb16">0.16</h4>
     <ul>
@@ -346,7 +429,10 @@ password = Odoo-User-Password</pre>
     </ul>
     <h4 class="oe_mb16">0.15</h4>
     <ul>
-      <li>Scheduled (cron) cleanup of tasks - with optionally specifying/overriding: (1) timedelta (days=90, hours, minutes, seconds), (2) states to keep and (3) batch_size=100.</li>
+      <li>
+        Scheduled (cron) cleanup of tasks - with optionally specifying/overriding: (1) timedelta (days=90,
+        hours, minutes, seconds), (2) states to keep and (3) batch_size=100.
+      </li>
       <li>Create database index for the State Time (state_date) field.</li>
     </ul>
     <h4 class="oe_mb16">0.14</h4>
@@ -356,49 +442,71 @@ password = Odoo-User-Password</pre>
     <h4 class="oe_mb16">0.13</h4>
     <ul>
       <li>Get XML-RPC URL from ir.config.parameter (celery.celery_base_url) by Settings.</li>
-    </ul>    
+    </ul>
     <h4 class="oe_mb16">0.12</h4>
     <ul>
-      <li>Also support to get the Celery (Odoo) user and password from the odoo.conf file, under section [options] too.</li>
-    </ul>    
+      <li>
+        Also support to get the Celery (Odoo) user and password from the odoo.conf file, under section
+        [options] too.
+      </li>
+    </ul>
     <h4 class="oe_mb16">0.11</h4>
     <ul>
       <li>Put task into a new state "Retrying", right before the Retry starts.</li>
-      </li>
     </ul>
     <h4 class="oe_mb16">0.10</h4>
     <ul>
-      <li>Renamed task retry settings: 'MUL_RETR' to 'MUL_RETRIES', 'MUL_RETR_SECS' to 'MUL_RETRIES_SECS'.</li>
+      <li>
+        Renamed task retry settings: 'MUL_RETR' to 'MUL_RETRIES', 'MUL_RETR_SECS' to 'MUL_RETRIES_SECS'.
       </li>
     </ul>
     <h4 class="oe_mb16">0.9</h4>
     <ul>
       <li>
-        Hide (Odoo) password in the "retry" payload used by the MQ broker for XML-RPC authentication.<br/>
+        Hide (Odoo) password in the "retry" payload used by the MQ broker for XML-RPC authentication.<br />
         GitHub issue: <code>https://github.com/novacode-nl/odoo-celery/issues/17</code>
       </li>
     </ul>
     <h4 class="oe_mb16">0.8</h4>
     <ul>
-      <li>Fix task retry countdown/interval ignored. For more info see <code>https://github.com/novacode-nl/odoo-celery/issues/14</code></li>
-      <li>Add task retry countdown settings, to increase countdown during retries ('ADD_SECS', 'MUL_RETRY', 'MUL_RETRY_SECS').</li>      
-      <li>Search view of stuck tasks: (1) Add/show field <code>reference</code> (2) search-view with filters and grouping.</li>
+      <li>
+        Fix task retry countdown/interval ignored. For more info see
+        <code>https://github.com/novacode-nl/odoo-celery/issues/14</code>
+      </li>
+      <li>
+        Add task retry countdown settings, to increase countdown during retries ('ADD_SECS', 'MUL_RETRY',
+        'MUL_RETRY_SECS').
+      </li>
+      <li>
+        Search view of stuck tasks: (1) Add/show field <code>reference</code> (2) search-view with filters and
+        grouping.
+      </li>
       <li>Track task changes of fields <code>model, method, handle_stuck</code></li>
       <li>Disable create/copy in the task form-view.</li>
     </ul>
     <h4 class="oe_mb16">0.7</h4>
     <ul>
-      <li>Task <em>Reference</em>, which serves:
+      <li>
+        Task <em>Reference</em>, which serves:
         <ul>
           <li>Easier searching for tasks by Reference.</li>
-          <li>Check (ORM query) before <code>call_task()</code> call, to prevent redundant creation of recurring Pending tasks.</li>
+          <li>
+            Check (ORM query) before <code>call_task()</code> call, to prevent redundant creation of recurring
+            Pending tasks.
+          </li>
         </ul>
       </li>
     </ul>
     <h4 class="oe_mb16">0.6</h4>
-    <em>Introduction of "Stuck" tasks. A stuck task could be caused, for example by: a stopped/restarted Celery worker, message broker, or server.</em>
+    <em
+      >Introduction of "Stuck" tasks. A stuck task could be caused, for example by: a stopped/restarted Celery
+      worker, message broker, or server.</em
+    >
     <ul>
-      <li>Settings: to specify when a task (model, method) is Stuck after seconds from Started or Retry (states).</li>
+      <li>
+        Settings: to specify when a task (model, method) is Stuck after seconds from Started or Retry
+        (states).
+      </li>
       <li>Stuck Tasks Report: which shows Stuck (not completed) tasks.</li>
       <li>Cron or manually put tasks in "Stuck" state.</li>
       <li>Ability to cancel (Pending or Stuck) tasks, which never completed.</li>
@@ -415,7 +523,7 @@ password = Odoo-User-Password</pre>
     <h4 class="oe_mb16">0.3</h4>
     <ul>
       <li>
-        Hide (Odoo) password in payload used by the broker for XML-RPC authentication.<br/>
+        Hide (Odoo) password in payload used by the broker for XML-RPC authentication.<br />
         GitHub issue: <code>https://github.com/novacode-nl/odoo-celery/issues/4</code>
       </li>
     </ul>
