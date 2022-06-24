@@ -333,7 +333,7 @@ class CeleryTask(models.Model):
     @api.model
     def call_task(self, model, method, **kwargs):
         """Call Task dispatch to the Celery interface."""
-
+        logger.warning("call_task: Model: %s, Method: %s" % (model,method))
         user, password, sudo = _get_celery_user_config()
         res_users = self.env["res.users"].with_context(active_test=False)
         user_id = res_users.search_read([("login", "=", user)], fields=["id"], limit=1)
@@ -342,6 +342,7 @@ class CeleryTask(models.Model):
             logger.error(msg)
             return False
 
+        logger.warning("call_task: user_id: %s[%s]" % (user_id,user))
         user_id = user_id[0]["id"]
         task_uuid = str(uuid.uuid4())
         vals = {
@@ -432,23 +433,27 @@ class CeleryTask(models.Model):
             # Closure uses several variables from enslosing scope.
             db_registry = model_registry.Registry.new(dbname)
             call_task = False
-            with api.Environment.manage(), db_registry.cursor() as cr:
+            # FIXED: Odoo15 Error! "DeprecationWarning: Since Odoo 15.0, Environment.manage() is useless."
+            # with api.Environment.manage(), db_registry.cursor() as cr:
+            with db_registry.cursor() as cr:
                 env = api.Environment(cr, user_id, {})
                 Task = env["celery.task"]
                 try:
                     Task.create(vals)
                     call_task = True
                 except CeleryCallTaskException as e:
-                    logger.error(_("ERROR FROM call_task %s: %s") % (task_uuid, e))
+                    logger.warning(_("ERROR FROM call_task %s: %s") % (task_uuid, e))
                     cr.rollback()
                     call_task = False
                 except Exception as e:
-                    logger.error(_("UNKNOWN ERROR FROM call_task: %s") % (e))
+                    logger.warning(_("UNKNOWN ERROR FROM call_task: %s") % (e))
                     cr.rollback()
                     call_task = False
 
             if call_task:
-                with api.Environment.manage(), db_registry.cursor() as cr:
+                # FIXED: Odoo15 Error! "DeprecationWarning: Since Odoo 15.0, Environment.manage() is useless."
+                # with api.Environment.manage(), db_registry.cursor() as cr:
+                with db_registry.cursor() as cr:
                     env = api.Environment(cr, user_id, {})
                     Task = env["celery.task"]
                     if (
@@ -461,7 +466,9 @@ class CeleryTask(models.Model):
         if transaction_strategy == "immediate":
             apply_call_task()
         else:
-            self._cr.after("commit", apply_call_task)
+            # FIXED: Odoo15 Error! "DeprecationWarning: Cursor.after() is deprecated, use Cursor.postcommit.add() instead."
+            # self._cr.after("commit", apply_call_task)
+            self._cr.postcommit.add(apply_call_task)
 
     def _transaction_strategies(self):
         transaction_strategies = (
@@ -516,6 +523,8 @@ class CeleryTask(models.Model):
 
     @api.model
     def _celery_call_task(self, user_id, uuid, model, method, kwargs):
+        logger.info("call_task: [_celery_call_task] Model: %s, Method: %s" % (model,method))
+
         user, password, sudo = _get_celery_user_config()
         url = self.env["ir.config_parameter"].sudo().get_param("celery.celery_base_url")
         _args = [url, self._cr.dbname, user_id, uuid, model, method]
@@ -542,9 +551,10 @@ class CeleryTask(models.Model):
                 retry_policy["interval_step"] = celery_kwargs.get("interval_step")
             kwargs["celery"]["retry_policy"] = retry_policy
 
-        call_task.apply_async(
+        retval = call_task.apply_async(
             args=_args, kwargs=kwargs, kwargsrepr=_kwargsrepr, **kwargs["celery"]
         )
+        logger.info("_celery_call_task: RETVAL: {retval}".format(retval=retval))
 
     @api.model
     def rpc_run_task(self, task_uuid, model, method, *args, **kwargs):

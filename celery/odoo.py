@@ -45,6 +45,7 @@ app = Celery(
 
 @app.task(name="odoo.addons.celery.odoo.call_task", bind=True)
 def call_task(self, url, db, user_id, task_uuid, model, method, **kwargs):
+    logger.info("odoo:call_task: Model: %s, Method: %s" % (model,method))
     odoo = xmlrpc_client.ServerProxy("{}/xmlrpc/2/object".format(url))
     args = [task_uuid, model, method]
     _kwargs = copy.deepcopy(kwargs)
@@ -92,9 +93,7 @@ def call_task(self, url, db, user_id, task_uuid, model, method, **kwargs):
             db, user_id, password, "celery.task", "rpc_run_task", args, _kwargs
         )
 
-        if (isinstance(response, tuple) or isinstance(response, list)) and len(
-            response
-        ) == 2:
+        if (isinstance(response, tuple) or isinstance(response, list)) and len(response) == 2:
             code = response[0]
             result = response[1]
         else:
