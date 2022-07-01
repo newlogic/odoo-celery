@@ -89,16 +89,20 @@ def call_task(self, url, db, user_id, task_uuid, model, method, **kwargs):
                 kwargs=_kwargs,
             )
         )
-        response = odoo.execute_kw(
-            db, user_id, password, "celery.task", "rpc_run_task", args, _kwargs
-        )
-
-        if (isinstance(response, tuple) or isinstance(response, list)) and len(response) == 2:
-            code = response[0]
-            result = response[1]
-        else:
-            code = OK_CODE
-            result = response
+        code = OK_CODE
+        result = None
+        try:
+            response = odoo.execute_kw(
+                db, user_id, password, "celery.task", "rpc_run_task", args, _kwargs
+            )
+            if (isinstance(response, tuple) or isinstance(response, list)) and len(response) == 2:
+                code = response[0]
+                result = response[1]
+            else:
+                code = OK_CODE
+                result = response
+        except ConnectionRefusedError as e:
+            code = STATE_RETRY
 
         if code == TASK_NOT_FOUND:
             msg = "%s, database: %s" % (result, db)
